@@ -1,2 +1,2 @@
 # Reinforcement-Learning-Scenarios
-Different Scenarios for Reinforcement Learning agents
+This repository is a collection of different scenarios where we use Reinforcement Learning to learn optimal behavior.
