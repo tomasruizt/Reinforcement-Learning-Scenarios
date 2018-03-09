@@ -74,11 +74,11 @@ class BlackjackGameTest(unittest.TestCase):
 
     def setup_deck(self):
         cards = [
-            Card("10", [10]),
-            Card("9", [9]),
-            Card("2", [2]),
-            Card("A", [11, 1]),
-            Card("3", [3])
+            Card("10"),
+            Card("9"),
+            Card("2"),
+            Card("A"),
+            Card("3")
         ]
         deck = MagicMock(spec=PokerCardsDeck)
         deck.cards_remaining.return_value = True
@@ -87,11 +87,11 @@ class BlackjackGameTest(unittest.TestCase):
 
     def setup_deck_aces(self):
         cards = [
-            Card("A", [1, 11]),
-            Card("A", [1, 11]),
-            Card("A", [1, 11]),
-            Card("A", [1, 11]),
-            Card("2", [2])
+            Card("A"),
+            Card("A"),
+            Card("A"),
+            Card("A"),
+            Card("2")
         ]
         deck = MagicMock(spec=PokerCardsDeck)
         deck.cards_remaining.return_value = True

@@ -12,12 +12,12 @@ class PokerCardsDeck:
         """
         Initiates the deck and shuffles the cards.
         """
-        self._remaining_cards = [Card(str(i), [i]) for i in range(1, 10)] * 4
+        self._remaining_cards = [Card(str(i)) for i in range(2, 11)] * 4
         face_cards_values = [
-            Card("A", [11, 1]),
-            Card("K", [10]),
-            Card("Q", [10]),
-            Card("J", [10])
+            Card("A"),
+            Card("K"),
+            Card("Q"),
+            Card("J")
         ]
         self._remaining_cards.extend(face_cards_values * 4)
         shuffle(self._remaining_cards)
