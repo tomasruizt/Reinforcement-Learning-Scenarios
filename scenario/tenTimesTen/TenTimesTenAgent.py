@@ -1,9 +1,6 @@
 from itertools import zip_longest
 
-from rl.interfaces import Agent
-
-
-class TenTimesTenAgent(Agent):
+class TenTimesTenAgent:
 
     def __init__(self):
         self._actions_deltas = {
