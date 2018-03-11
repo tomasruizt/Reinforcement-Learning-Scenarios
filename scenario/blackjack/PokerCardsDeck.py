@@ -25,12 +25,12 @@ class PokerCardsDeck:
     def draw_card(self):
         """
         Remove a single Card from the shuffled deck.
-        :return: The removed Card. If the deck is empty, this method returns None.
+        :return: The removed Card. If the deck is empty, this method raises an Exception.
         """
         if len(self._remaining_cards) > 0:
             return self._remaining_cards.pop()
         else:
-            return None
+            raise Exception("No more cards remain in the Deck.")
 
-    def cards_remaining(self) -> bool:
+    def cards_remain(self) -> bool:
         return len(self._remaining_cards) > 0

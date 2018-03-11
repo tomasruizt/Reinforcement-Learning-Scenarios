@@ -27,13 +27,14 @@ class PokerCardsDeckTest(unittest.TestCase):
 
         self.assertFalse(equal_order)
 
-    def test_after_52_cards_returns_None(self):
+    def test_raises_exception_after_52_cards(self):
         deck = PokerCardsDeck()
 
         for _ in range(52):
             self.assertIsInstance(deck.draw_card(), Card)
 
-        self.assertIsNone(deck.draw_card())
+        with self.assertRaisesRegex(Exception, "No more cards remain in the Deck."):
+            deck.draw_card()
 
     def test_returns_4_cards_of_each_type(self):
         deck = PokerCardsDeck()
@@ -54,14 +55,14 @@ class PokerCardsDeckTest(unittest.TestCase):
         while card.name is not "A":
             card = deck.draw_card()
 
-        self.assertIn(1, card.value)
-        self.assertIn(11, card.value)
+        self.assertIn(1, card.possible_values)
+        self.assertIn(11, card.possible_values)
 
     def test_cards_remaining(self):
         deck = PokerCardsDeck()
         for _ in range(51):
             deck.draw_card()
 
-        self.assertTrue(deck.cards_remaining())
+        self.assertTrue(deck.cards_remain())
         deck.draw_card()
-        self.assertFalse(deck.cards_remaining())
+        self.assertFalse(deck.cards_remain())

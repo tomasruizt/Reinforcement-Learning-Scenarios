@@ -43,7 +43,7 @@ class BlackjackGame:
         return current_player_hand
 
     def _give_new_card(self, player: Player, hand: List[Card]):
-        if not self._shuffled_deck.cards_remaining():
+        if not self._shuffled_deck.cards_remain():
             raise Exception("No more cards remain for player to keep drawing.")
         new_card = self._shuffled_deck.draw_card()
         player.accept_card(card=new_card)
@@ -58,5 +58,5 @@ class BlackjackGame:
         :param player_cards: the Card(s) this player has already been dealt.
         :return: A bool value whether Player's score is over 21 or not
         """
-        player_score = sum([min(card.value) for card in player_cards])
+        player_score = sum([min(card.possible_values) for card in player_cards])
         return player_score < 22

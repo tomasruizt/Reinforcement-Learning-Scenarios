@@ -81,7 +81,7 @@ class BlackjackGameTest(unittest.TestCase):
             Card("3")
         ]
         deck = MagicMock(spec=PokerCardsDeck)
-        deck.cards_remaining.return_value = True
+        deck.cards_remain.return_value = True
         deck.draw_card.side_effect = cards
         return deck
 
@@ -94,6 +94,6 @@ class BlackjackGameTest(unittest.TestCase):
             Card("2")
         ]
         deck = MagicMock(spec=PokerCardsDeck)
-        deck.cards_remaining.return_value = True
+        deck.cards_remain.return_value = True
         deck.draw_card.side_effect = cards
         return deck
