@@ -1,6 +1,6 @@
 from random import shuffle
 
-from scenario.blackjack.Card import Card
+from scenario.blackjack.cards_deck.card import Card
 
 
 class PokerCardsDeck:

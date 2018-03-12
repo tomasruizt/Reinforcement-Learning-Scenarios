@@ -2,8 +2,8 @@ from pprint import pprint
 
 from rl.game import SequentialGame
 
-from scenario.blackjack.BlackjackEnvironment import BlackjackEnvironment
-from scenario.blackjack.EpisodeSerializer import EpisodeSerializer
+from scenario.blackjack.blackjack_environment import BlackjackEnvironment
+from scenario.blackjack.episode_serializer import EpisodeSerializer
 from scenario.blackjack.agent import RandomPlayer
 
 agent = RandomPlayer()

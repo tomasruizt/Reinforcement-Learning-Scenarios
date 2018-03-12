@@ -2,5 +2,8 @@
 * Deprecate BlackjackGame class
 # Testing
 * BlackjackEnvironment
-* BlackjackStateRepresentationBuilder
+* BlackjackStateTransition
+* BlackjackState builders
 * EpisodeSerializer
+* Dealer
+* RandomPlayer

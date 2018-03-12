@@ -1,3 +1,0 @@
-from scenario.blackjack.state_representation.BlackjackStateRepresentation import BlackjackStateRepresentation
-from scenario.blackjack.state_representation.BlackjackStateRepresentationBuilder import \
-    BlackjackStateRepresentationBuilder

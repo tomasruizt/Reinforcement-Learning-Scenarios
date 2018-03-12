@@ -3,8 +3,8 @@ import unittest
 from collections import Counter
 from numpy import random
 
-from scenario.blackjack.Card import Card
-from scenario.blackjack.PokerCardsDeck import PokerCardsDeck
+from scenario.blackjack.cards_deck.card import Card
+from scenario.blackjack.cards_deck.poker_cards_deck import PokerCardsDeck
 
 
 class PokerCardsDeckTest(unittest.TestCase):
@@ -33,7 +33,8 @@ class PokerCardsDeckTest(unittest.TestCase):
         for _ in range(52):
             self.assertIsInstance(deck.draw_card(), Card)
 
-        with self.assertRaisesRegex(Exception, "No more cards remain in the Deck."):
+        with self.assertRaisesRegex(Exception,
+                                    "No more cards remain in the Deck."):
             deck.draw_card()
 
     def test_returns_4_cards_of_each_type(self):
@@ -55,8 +56,8 @@ class PokerCardsDeckTest(unittest.TestCase):
         while card.name is not "A":
             card = deck.draw_card()
 
-        self.assertIn(1, card.possible_values)
-        self.assertIn(11, card.possible_values)
+        self.assertIn(1, card.value)
+        self.assertIn(11, card.value)
 
     def test_cards_remaining(self):
         deck = PokerCardsDeck()
