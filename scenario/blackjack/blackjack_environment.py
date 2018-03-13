@@ -4,7 +4,8 @@ from rl.episode import DiscreteEpisode
 
 from scenario.blackjack.action import BlackjackAction
 from scenario.blackjack.agent import Dealer
-from scenario.blackjack.cards_deck import Hand, PokerCardsDeck
+from scenario.blackjack.cards_deck import Hand
+from scenario.blackjack.cards_deck.infinite_deck import InfiniteDeck
 from scenario.blackjack.state import BlackjackState, Transition
 
 
@@ -14,7 +15,7 @@ class BlackjackEnvironment(DiscreteEnvironment):
     """
 
     def __init__(self, dealer: Dealer = Dealer(),
-                 shuffled_deck=PokerCardsDeck(), transition=Transition):
+                 shuffled_deck=InfiniteDeck(), transition=Transition):
         """
         Initializes the Blackjack environment with input deck
         :param dealer: The Dealer instance that will be part of the
