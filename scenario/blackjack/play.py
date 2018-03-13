@@ -8,8 +8,16 @@ from scenario.blackjack.agent import RandomPlayer
 
 agent = RandomPlayer()
 environment = BlackjackEnvironment()
-results = SequentialGame(agent, environment).run_once()
-serializer = EpisodeSerializer()
 
-for episode in results:
-    pprint(serializer.to_json(episode))
+num_of_games = 10
+all_games_episodes = []
+
+for _ in range(num_of_games):
+    single_game_episodes = SequentialGame(agent, environment).run_once()
+    all_games_episodes.append(single_game_episodes)
+
+# Print
+serializer = EpisodeSerializer()
+for single_game_episodes in all_games_episodes:
+    for episode in single_game_episodes:
+        pprint(serializer.to_human_friendly_json(episode))

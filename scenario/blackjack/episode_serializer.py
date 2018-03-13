@@ -7,7 +7,7 @@ from scenario.blackjack.state import BlackjackState
 
 class EpisodeSerializer:
 
-    def to_json(self, episode: DiscreteEpisode):
+    def to_json(self, episode: DiscreteEpisode) -> Dict:
         return {
             "episode": {
                 "start state": self._serialize_state(episode.start_state),
@@ -16,6 +16,16 @@ class EpisodeSerializer:
                 "end state": self._serialize_state(episode.end_state)
             }
         }
+
+    def to_human_friendly_json(self, episode: DiscreteEpisode) -> Dict:
+        data = self.to_json(episode)["episode"]
+        friendly_json = {
+            "initial player score": data["start state"]["player hand"]["score"],
+            "action chosen": data["action chosen"],
+            "reward": data["reward"],
+            "next player score": data["end state"]["player hand"]["score"]
+        }
+        return friendly_json
 
     @staticmethod
     def _serialize_state(state: BlackjackState) -> Dict:
