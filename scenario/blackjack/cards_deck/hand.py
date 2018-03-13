@@ -1,5 +1,4 @@
 from collections import Counter
-from operator import itemgetter
 from typing import Iterable
 
 from scenario.blackjack.cards_deck.card import Card
