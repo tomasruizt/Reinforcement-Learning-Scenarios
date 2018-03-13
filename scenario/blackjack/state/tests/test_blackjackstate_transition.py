@@ -1,29 +1,23 @@
 import unittest
 
 from scenario.blackjack.cards_deck import Hand, Card
-from scenario.blackjack.state import BlackjackState, Transition
+from scenario.blackjack.state import BlackjackState
+from scenario.blackjack.state import Transition
 
 
 class TransitionTest(unittest.TestCase):
 
-    transition = Transition()  # Needs not be reset.
-
     def test_target_draws_card_old_state_unchanged(self):
         initial_state = self._setup_initial_state()
         unchanged_initial_state = self._setup_initial_state()
+        Transition(initial_state).dealer().draw(Card("10"))
 
-        some_target = Transition.Target.DEALER
-        self.transition.target_draws_card(
-            initial_state, Card("10"), some_target)
         self.assertEqual(initial_state, unchanged_initial_state)
 
     def test_target_draws_card_player_gets_new_card(self):
         initial_state = self._setup_initial_state()
         new_card_name = "A"
-
-        target = Transition.Target.PLAYER
-        new_state = self.transition.target_draws_card(
-            initial_state, Card(new_card_name), target)
+        new_state = Transition(initial_state).player().draw(Card(new_card_name))
 
         self.assertFalse(new_card_name in initial_state.player_hand.card_names)
         self.assertTrue(new_card_name in new_state.player_hand.card_names)
@@ -34,10 +28,7 @@ class TransitionTest(unittest.TestCase):
     def test_target_draws_card_dealer_gets_new_card(self):
         initial_state = self._setup_initial_state()
         new_card_name = "A"
-
-        target = Transition.Target.DEALER
-        new_state = self.transition.target_draws_card(
-            initial_state, Card(new_card_name), target)
+        new_state = Transition(initial_state).dealer().draw(Card(new_card_name))
 
         self.assertFalse(new_card_name in initial_state.dealer_hand.card_names)
         self.assertTrue(new_card_name in new_state.dealer_hand.card_names)
@@ -48,16 +39,13 @@ class TransitionTest(unittest.TestCase):
     def test_target_passes_old_state_unchanged(self):
         initial_state = self._setup_initial_state()
         unchanged_initial_state = self._setup_initial_state()
+        Transition(initial_state).dealer().pass_turn()
 
-        some_target = Transition.Target.DEALER
-        self.transition.target_passes(initial_state, some_target)
         self.assertEqual(initial_state, unchanged_initial_state)
 
     def test_target_passes_player_passed(self):
         initial_state = self._setup_initial_state()
-
-        target = Transition.Target.PLAYER
-        new_state = self.transition.target_passes(initial_state, target)
+        new_state = Transition(initial_state).player().pass_turn()
 
         self.assertFalse(initial_state.player_has_passed)
         self.assertTrue(new_state.player_has_passed)
@@ -67,9 +55,7 @@ class TransitionTest(unittest.TestCase):
 
     def test_target_passes_dealer_passed(self):
         initial_state = self._setup_initial_state()
-
-        target = Transition.Target.DEALER
-        new_state = self.transition.target_passes(initial_state, target)
+        new_state = Transition(initial_state).dealer().pass_turn()
 
         self.assertFalse(initial_state.dealer_has_passed)
         self.assertTrue(new_state.dealer_has_passed)

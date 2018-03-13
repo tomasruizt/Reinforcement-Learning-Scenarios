@@ -14,7 +14,7 @@ class BlackjackEnvironment(DiscreteEnvironment):
     """
 
     def __init__(self, dealer: Dealer = Dealer(),
-                 shuffled_deck=PokerCardsDeck(), transition=Transition()):
+                 shuffled_deck=PokerCardsDeck(), transition=Transition):
         """
         Initializes the Blackjack environment with input deck
         :param dealer: The Dealer instance that will be part of the
@@ -43,13 +43,13 @@ class BlackjackEnvironment(DiscreteEnvironment):
     def evaluate_agent_choice(
             self, agent_choice: DiscreteAgentChoice) -> DiscreteEpisode:
         """
-        Evaluates whether the player wants a new card or not, and changes his
-        hand accordingly. Also, in case the player busted or passed, it will
-        pass the turn on to the dealer.
-        :param agent_choice: The agent choice containing whether the wants
-        to draw a new card or passes.
-        :return: A full episode with the player's old hand, his decision and
-        the new hand he has.
+        Evaluates whether the player wants a new card or not, and
+        changes his hand accordingly. Also, in case the player busted or
+        passed, it will pass the turn on to the dealer.
+        :param agent_choice: The agent choice containing whether the
+        wants to draw a new card or passes.
+        :return: A full episode with the player's old hand, his
+        decision and the new hand he has.
         """
         new_state = self._get_new_state_from(agent_choice)
         reward = self._calculate_reward(new_state)
@@ -76,16 +76,15 @@ class BlackjackEnvironment(DiscreteEnvironment):
         action the Agent chose.
         :return: The new state.
         """
-        state = choice.from_state
+        from_state = choice.from_state
         player_action_name = choice.action_chosen
         self._validate_action(player_action_name)
 
         if player_action_name is BlackjackAction.DRAW:
             new_card = self._shuffled_deck.draw_card()
-            new_state = self._transition.target_draws_card(
-                from_state=state, new_card=new_card)
+            new_state = self._transition(from_state).player().draw(new_card)
         else:
-            new_state = self._transition.target_passes(from_state=state)
+            new_state = self._transition(from_state).player().pass_turn()
 
         if self._player_has_no_more_choices(new_state):
             return self._complete_state_with_dealer_play(new_state)
@@ -125,14 +124,15 @@ class BlackjackEnvironment(DiscreteEnvironment):
 
         if dealer_action_name is BlackjackAction.DRAW:
             new_card = self._shuffled_deck.draw_card()
-            return self._transition.dealer_draws_card(from_state, new_card)
+            return self._transition(from_state).dealer().draw(new_card)
         else:
-            return self._transition.dealer_passes(from_state=from_state)
+            return self._transition(from_state).dealer().pass_turn()
 
     @staticmethod
     def _validate_action(action: BlackjackAction):
         """Validate that the action is in the action space."""
-        # TODO: Should in the action space of the state it was taken from!
+        # TODO: Should whether the action is in the action space of the
+        # state it was taken from!
         assert action in BlackjackState.DEFAULT_ACTION_SPACE, (
                 "The input 'choice.action_chosen.name': '%s', is neither '%s' "
                 "nor '%s'." % (action, BlackjackAction.DRAW,
