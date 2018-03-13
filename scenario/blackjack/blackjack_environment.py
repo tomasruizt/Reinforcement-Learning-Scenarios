@@ -82,10 +82,10 @@ class BlackjackEnvironment(DiscreteEnvironment):
 
         if player_action_name is BlackjackAction.DRAW:
             new_card = self._shuffled_deck.draw_card()
-            new_state = self._transition.player_draws_card(
+            new_state = self._transition.target_draws_card(
                 from_state=state, new_card=new_card)
         else:
-            new_state = self._transition.player_passes(from_state=state)
+            new_state = self._transition.target_passes(from_state=state)
 
         if self._player_has_no_more_choices(new_state):
             return self._complete_state_with_dealer_play(new_state)
