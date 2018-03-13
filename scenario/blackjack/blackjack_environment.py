@@ -13,9 +13,6 @@ class BlackjackEnvironment(DiscreteEnvironment):
     An implementation of Environment that simulates the BlackJack game.
     """
 
-    _DEFAULT_ACTION_SPACE = (BlackjackAction.DRAW, BlackjackAction.PASS)
-    _DEFAULT_BET = 1
-
     def __init__(self, dealer: Dealer = Dealer(),
                  shuffled_deck=PokerCardsDeck(), transition=Transition()):
         """
@@ -41,9 +38,7 @@ class BlackjackEnvironment(DiscreteEnvironment):
         dealer_hand = Hand([self._shuffled_deck.draw_card()])
         return BlackjackState.new_initial_state(
             player_hand=initial_player_hand,
-            dealer_hand=dealer_hand,
-            current_bet=self._DEFAULT_BET,
-            action_space=self._DEFAULT_ACTION_SPACE)
+            dealer_hand=dealer_hand)
 
     def evaluate_agent_choice(
             self, agent_choice: DiscreteAgentChoice) -> DiscreteEpisode:
@@ -134,10 +129,11 @@ class BlackjackEnvironment(DiscreteEnvironment):
         else:
             return self._transition.dealer_passes(from_state=from_state)
 
-    def _validate_action(self, action: BlackjackAction):
+    @staticmethod
+    def _validate_action(action: BlackjackAction):
         """Validate that the action is in the action space."""
         # TODO: Should in the action space of the state it was taken from!
-        assert action in self._DEFAULT_ACTION_SPACE, (
+        assert action in BlackjackState.DEFAULT_ACTION_SPACE, (
                 "The input 'choice.action_chosen.name': '%s', is neither '%s' "
                 "nor '%s'." % (action, BlackjackAction.DRAW,
                                BlackjackAction.PASS))

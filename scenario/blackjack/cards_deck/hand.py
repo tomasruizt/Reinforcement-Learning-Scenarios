@@ -1,4 +1,5 @@
 from collections import Counter
+from operator import itemgetter
 from typing import Iterable
 
 from scenario.blackjack.cards_deck.card import Card
@@ -13,7 +14,7 @@ class Hand:
         :param cards_list: The Cards that form the hand.
         """
         counter = Counter((card.name for card in cards_list))
-        self.card_names, self.quantities = zip(*counter.items())
+        self.card_names, self.quantities = zip(*sorted(counter.items()))
         self.score = self._calculate_score(cards_list)
 
     def add_card(self, new_card: Card):
@@ -43,3 +44,8 @@ class Hand:
         if "A" in card_names and score <= 11:
             score += 10
         return score
+
+    def __eq__(self, other):
+        return (self.card_names == other.card_names
+                and self.quantities == other.quantities
+                and self.score == other.score)

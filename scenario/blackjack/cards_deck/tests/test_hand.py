@@ -8,7 +8,7 @@ class HandTest(unittest.TestCase):
     def test_score_single_ace_lowered(self):
         cards_list = [Card("A"), Card("10"), Card("2")]
         expected_score = 13
-        expected_card_names = ("A", "10", "2")
+        expected_card_names = ("10", "2", "A")
         expected_quantities = (1, 1, 1)
 
         hand = Hand(cards_list)
@@ -55,8 +55,8 @@ class HandTest(unittest.TestCase):
         cards_list = [Card("K"), Card("K")]
         new_card = Card("4")
         expected_score = 24
-        expected_card_names = ("K", "4")
-        expected_quantities = (2, 1)
+        expected_card_names = ("4", "K")
+        expected_quantities = (1, 2)
 
         new_hand = Hand(cards_list).add_card(new_card)
         self.assertEqual(new_hand.score, expected_score)

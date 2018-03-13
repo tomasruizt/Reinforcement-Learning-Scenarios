@@ -12,6 +12,9 @@ class BlackjackState(DiscreteState):
     Blackjack game against one opponent.
     """
 
+    DEFAULT_BET = 1
+    DEFAULT_ACTION_SPACE = (BlackjackAction.DRAW, BlackjackAction.PASS)
+
     def __init__(self, player_hand: Hand, dealer_hand: Hand,
                  player_has_passed: bool, dealer_has_passed: bool,
                  current_bet: int, action_space: Iterable[BlackjackAction]):
@@ -31,15 +34,12 @@ class BlackjackState(DiscreteState):
         """
         return self.dealer_hand.score > 21 or self.dealer_has_passed
 
-    @staticmethod
-    def new_initial_state(player_hand: Hand, dealer_hand: Hand,
-            current_bet: int, action_space:Iterable[BlackjackAction]):
+    @classmethod
+    def new_initial_state(cls, player_hand: Hand, dealer_hand: Hand):
         """
         Creates a new BlackjackState with the minimum information needed.
-        :param action_space: The initial action space.
         :param player_hand: The initial player hand.
         :param dealer_hand: The initial dealer hand.
-        :param current_bet: The bet of the player.
         :return: The new BlackjackState object.
         """
         assert sum(player_hand.quantities) is 2
@@ -48,8 +48,16 @@ class BlackjackState(DiscreteState):
         return BlackjackState(
             player_hand=player_hand,
             dealer_hand=dealer_hand,
-            current_bet=current_bet,
             player_has_passed=False,
             dealer_has_passed=False,
-            action_space=action_space
+            current_bet=cls.DEFAULT_BET,
+            action_space=cls.DEFAULT_ACTION_SPACE
         )
+
+    def __eq__(self, other):
+        return (self.player_hand == other.player_hand
+                and self.dealer_hand == other.dealer_hand
+                and self.dealer_has_passed == other.dealer_has_passed
+                and self.player_has_passed == other.player_has_passed
+                and self.current_bet == other.current_bet
+                and self.action_space == other.action_space)
