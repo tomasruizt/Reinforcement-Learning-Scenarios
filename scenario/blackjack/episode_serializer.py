@@ -20,10 +20,12 @@ class EpisodeSerializer:
     def to_human_friendly_json(self, episode: DiscreteEpisode) -> Dict:
         data = self.to_json(episode)["episode"]
         friendly_json = {
-            "initial player score": data["start state"]["player hand"]["score"],
-            "action chosen": data["action chosen"],
-            "reward": data["reward"],
-            "next player score": data["end state"]["player hand"]["score"]
+            "initial player score": str(data["start state"]["player hand"][
+                "score"]),
+            "action chosen": str(data["action chosen"]),
+            "reward": str(data["reward"]),
+            "next player score": str(data["end state"]["player hand"]["score"]),
+            "dealer score": str(data["end state"]["opponent hand"]["score"])
         }
         return friendly_json
 
