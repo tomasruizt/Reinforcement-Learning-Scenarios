@@ -11,17 +11,14 @@ agent = RandomPlayer()
 environment = BlackjackEnvironment()
 
 num_of_games = 10
-all_games_episodes = []
+game = SequentialGame(agent, environment)
+games_results = game.play_multiple_times(times=num_of_games)
 
-for _ in range(num_of_games):
-    single_game_episodes = SequentialGame(agent, environment).run_once()
-    all_games_episodes.append(single_game_episodes)
-
-serializer = EpisodeSerializer()
 serialized_episodes = []
-for single_game_episodes in all_games_episodes:
-    for episode in single_game_episodes:
-        serialized_episodes.append(serializer.to_human_friendly_json(episode))
+for game_result in games_results:
+    for episode in game_result.episodes:
+        json = EpisodeSerializer(episode).to_human_friendly_json()
+        serialized_episodes.append(json)
 
 basedir = os.path.join("results", "blackjack")
 save_to_json_file(serialized_episodes, basedir, overwrite=True)

@@ -7,44 +7,49 @@ from scenario.blackjack.state import BlackjackState
 
 class EpisodeSerializer:
 
-    def to_json(self, episode: DiscreteEpisode) -> Dict:
+    def __init__(self, episode: DiscreteEpisode):
+        self._episode = episode
+
+    def to_json(self) -> Dict:
+        start_state = self._serialize_state(self._episode.start_state)
+        end_state = self._serialize_state(self._episode.end_state)
         return {
             "episode": {
-                "start state": self._serialize_state(episode.start_state),
-                "action chosen": episode.agent_action.name,
-                "reward": episode.reward,
-                "end state": self._serialize_state(episode.end_state)
+                "startState": start_state,
+                "actionChosen": self._episode.agent_action.name,
+                "reward": self._episode.reward,
+                "endState": end_state
             }
         }
 
-    def to_human_friendly_json(self, episode: DiscreteEpisode) -> Dict:
-        data = self.to_json(episode)["episode"]
+    def to_human_friendly_json(self) -> Dict:
+        players_initial_score = self._episode.start_state.player_hand.score
+        players_next_score = self._episode.end_state.player_hand.score
         friendly_json = {
-            "initial player score": str(data["start state"]["player hand"][
-                "score"]),
-            "action chosen": str(data["action chosen"]),
-            "reward": str(data["reward"]),
-            "next player score": str(data["end state"]["player hand"]["score"]),
-            "dealer score": str(data["end state"]["opponent hand"]["score"])
+            "playersInitialScore": players_initial_score,
+            "actionChosen": self._episode.agent_action.name,
+            "reward": self._episode.reward,
+            "playersNextScore": players_next_score,
+            "dealersScore": self._episode.end_state.dealer_hand.score
         }
         return friendly_json
 
     @staticmethod
     def _serialize_state(state: BlackjackState) -> Dict:
         player_hand = state.player_hand
-        opponent_hand = state.dealer_hand
+        dealer_hand = state.dealer_hand
         return {
-            "player hand": {
+            "playersHand": {
                 "cards": player_hand.card_names,
-                "corresponding quantities": player_hand.quantities,
+                "correspondingQuantities": player_hand.quantities,
                 "score": player_hand.score
             },
-            "opponent hand": {
-                "cards": opponent_hand.card_names,
-                "corresponding quantities": opponent_hand.quantities,
-                "score": opponent_hand.score
+            "dealersHand": {
+                "cards": dealer_hand.card_names,
+                "correspondingQuantities": dealer_hand.quantities,
+                "score": dealer_hand.score
             },
-            "current bet": state.current_bet,
+            "currentBet": state.current_bet,
             "passed": state.player_has_passed,
             # action space is constant: draw or pass
             # "action space": episode.start_state.action_space,
