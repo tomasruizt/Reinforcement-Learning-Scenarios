@@ -1,6 +1,6 @@
 from rl.agent import DiscreteAgent
 from rl.agent_choice import DiscreteAgentChoice
-from rl.episode import DiscreteEpisode
+from rl.experience_tuple import ExperienceTuple
 from rl.explorator import DiscreteExplorator
 from rl.featurizer.featurizer import DiscreteFeaturizer
 from rl.learning_algorithm import LearningAlgorithm
@@ -25,7 +25,8 @@ class LearningAgent(DiscreteAgent):
         action = self._explorator.choose_action(action_scores)
         return DiscreteAgentChoice(from_state=state, action_chosen=action)
 
-    def observe_episode(self, episode: DiscreteEpisode):
-        fitting_data_optional = self._learning_algorithm.observe(episode)
+    def observe_experience_tuple(self, experience_tuple: ExperienceTuple):
+        fitting_data_optional = \
+            self._learning_algorithm.observe(experience_tuple)
         if fitting_data_optional is not None:
             self._regressor.fit(fitting_data=fitting_data_optional)

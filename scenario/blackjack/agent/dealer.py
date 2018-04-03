@@ -1,6 +1,6 @@
 from rl.agent import DiscreteAgent
 from rl.agent_choice import DiscreteAgentChoice
-from rl.episode import DiscreteEpisode
+from rl.experience_tuple import ExperienceTuple
 
 from scenario.blackjack.action import BlackjackAction
 from scenario.blackjack.state import BlackjackState
@@ -26,6 +26,6 @@ class Dealer(DiscreteAgent):
             action_chosen=action
         )
 
-    def observe_episode(self, episode: DiscreteEpisode):
+    def observe_experience_tuple(self, experience_tuple: ExperienceTuple):
         """The dealer learns nothing from experience"""
         pass

@@ -2,7 +2,7 @@ import random
 
 from rl.agent import DiscreteAgent
 from rl.agent_choice import DiscreteAgentChoice
-from rl.episode import DiscreteEpisode
+from rl.experience_tuple import ExperienceTuple
 from rl.state import DiscreteState
 
 from scenario.blackjack.action import BlackjackAction
@@ -27,6 +27,6 @@ class RandomPlayer(DiscreteAgent):
             action = BlackjackAction.PASS
         return DiscreteAgentChoice(state, action)
 
-    def observe_episode(self, episode: DiscreteEpisode):
+    def observe_experience_tuple(self, experience_tuple: ExperienceTuple):
         """This player does not update his decision making."""
         pass

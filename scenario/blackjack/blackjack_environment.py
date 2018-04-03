@@ -1,6 +1,6 @@
 from rl.agent_choice import DiscreteAgentChoice
 from rl.environment import DiscreteEnvironment
-from rl.episode import DiscreteEpisode
+from rl.experience_tuple import ExperienceTuple
 
 from scenario.blackjack.action import BlackjackAction
 from scenario.blackjack.agent import Dealer
@@ -42,19 +42,19 @@ class BlackjackEnvironment(DiscreteEnvironment):
             dealer_hand=dealer_hand)
 
     def evaluate_agent_choice(
-            self, agent_choice: DiscreteAgentChoice) -> DiscreteEpisode:
+            self, agent_choice: DiscreteAgentChoice) -> ExperienceTuple:
         """
         Evaluates whether the player wants a new card or not, and
         changes his hand accordingly. Also, in case the player busted or
         passed, it will pass the turn on to the dealer.
         :param agent_choice: The agent choice containing whether the
         wants to draw a new card or passes.
-        :return: A full episode with the player's old hand, his
-        decision and the new hand he has.
+        :return: An experience tuple with the player's old hand, his
+        decision, reward, and new hand.
         """
         new_state = self._get_new_state_from(agent_choice)
         reward = self._calculate_reward(new_state)
-        return DiscreteEpisode(
+        return ExperienceTuple(
             start_state=agent_choice.from_state,
             agent_action=agent_choice.action_chosen,
             reward=reward,
