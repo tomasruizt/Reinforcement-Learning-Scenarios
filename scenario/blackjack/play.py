@@ -1,12 +1,11 @@
 import os
 
+from rl.experiment import ExperimentConfiguration, Experiment
+
 from scenario.blackjack.blackjack_environment import BlackjackEnvironment
 from scenario.blackjack.experience_tuple_serializer import \
     HumanFriendlyBlackjackExperienceTupleSerializer
 from scenario.blackjack.agent import RandomPlayer
-from scenario.blackjack.experiment import Experiment
-
-from scenario.blackjack.experiment_configuration import ExperimentConfiguration
 
 basedir = os.path.join("results", "blackjack")
 experience_tuple_serializer = HumanFriendlyBlackjackExperienceTupleSerializer()
